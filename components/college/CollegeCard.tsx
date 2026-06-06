@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, IndianRupee, Briefcase, GraduationCap, TrendingUp } from 'lucide-react';
+import { MapPin, IndianRupee, Briefcase, GraduationCap, TrendingUp, Building2, CheckCircle, Users, Award, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
@@ -72,80 +72,119 @@ export function CollegeCard({ college, onCompare, isComparing, index = 0 }: Coll
 
       {/* Content Section */}
       <div className="p-5 space-y-3">
-        {/* Rating */}
-        <div className="flex items-center justify-between">
+        {/* Header with Rating and Quick Badge */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-bold text-base line-clamp-2 text-foreground leading-tight">{college.shortName}</h3>
+            <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{college.location.city}, {college.location.state}</p>
+          </div>
           <RatingBadge rating={college.rating} reviews={college.totalReviews} size="sm" />
-          {latestPlacement && (
-            <div className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
-              <TrendingUp className="w-3.5 h-3.5" />
-              <span className="font-medium">{latestPlacement.percentage}% placed</span>
-            </div>
-          )}
         </div>
 
-        {/* Courses */}
-        <div className="flex flex-wrap gap-1.5">
-          {college.courses.slice(0, 2).map((course) => (
-            <Badge key={course.id} variant="secondary" className="text-xs font-normal hover:bg-primary/10 transition-colors duration-200">
-              <GraduationCap className="w-3 h-3 mr-1" />
-              {course.name.replace(/B\.Tech|B\.E\.|M\.Tech|M\.E\.|M\.Sc|MBA|M\.S\./g, (m) => m).split('(')[0].trim()}
-            </Badge>
-          ))}
-          {college.courses.length > 2 && (
-            <Badge variant="outline" className="text-xs">
-              +{college.courses.length - 2}
-            </Badge>
-          )}
+        {/* Placement Highlight */}
+        {latestPlacement && (
+          <div className="flex items-center gap-2 p-2 bg-emerald-500/5 rounded-lg border border-emerald-500/10">
+            <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs text-emerald-700 dark:text-emerald-300 font-semibold">{latestPlacement.percentage}% placement • ₹{latestPlacement.averagePackage} LPA avg</p>
+            </div>
+          </div>
+        )}
+
+        {/* Key Stats Grid */}
+        <div className="grid grid-cols-2 gap-2.5 pt-2">
+          <div className="flex items-center gap-2 p-2.5 bg-muted/50 rounded-lg hover:bg-muted transition-colors duration-200">
+            <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <IndianRupee className="w-3.5 h-3.5 text-primary" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] text-muted-foreground leading-none font-medium">Fees/Year</p>
+              <p className="text-xs font-bold mt-0.5 leading-tight">₹{(college.fees.min / 100000).toFixed(1)}L+</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 p-2.5 bg-muted/50 rounded-lg hover:bg-muted transition-colors duration-200">
+            <div className="w-7 h-7 rounded-lg bg-chart-4/10 flex items-center justify-center flex-shrink-0">
+              <GraduationCap className="w-3.5 h-3.5 text-chart-4" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] text-muted-foreground leading-none font-medium">Courses</p>
+              <p className="text-xs font-bold mt-0.5 leading-tight">{college.courses.length}+ courses</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 p-2.5 bg-muted/50 rounded-lg hover:bg-muted transition-colors duration-200">
+            <div className="w-7 h-7 rounded-lg bg-orange-500/10 flex items-center justify-center flex-shrink-0">
+              <Building2 className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] text-muted-foreground leading-none font-medium">Est.</p>
+              <p className="text-xs font-bold mt-0.5 leading-tight">{college.established}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 p-2.5 bg-muted/50 rounded-lg hover:bg-muted transition-colors duration-200">
+            <div className="w-7 h-7 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+              <Award className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] text-muted-foreground leading-none font-medium">Type</p>
+              <p className="text-xs font-bold mt-0.5 leading-tight capitalize">{college.type}</p>
+            </div>
+          </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 gap-3 pt-3 border-t border-border/50">
-          <div className="flex items-center gap-2 group/stat">
-            <div className="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center group-hover/stat:bg-primary/10 transition-colors duration-200">
-              <IndianRupee className="w-4 h-4 text-primary" />
-            </div>
-            <div>
-              <p className="text-[11px] text-muted-foreground leading-none">Fees/yr</p>
-              <p className="text-sm font-semibold leading-tight mt-0.5">
-                ₹{(college.fees.min / 100000).toFixed(1)}L - ₹{(college.fees.max / 100000).toFixed(1)}L
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 group/stat">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/5 flex items-center justify-center group-hover/stat:bg-emerald-500/10 transition-colors duration-200">
-              <Briefcase className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-[11px] text-muted-foreground leading-none">Avg CTC</p>
-              <p className="text-sm font-semibold leading-tight mt-0.5">
-                ₹{latestPlacement?.averagePackage || 'N/A'} LPA
-              </p>
-            </div>
-          </div>
+        {/* Accreditation & Facilities */}
+        <div className="flex items-center gap-1.5 text-xs pt-2 border-t border-border/40">
+          <CheckCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+          <span className="text-muted-foreground">
+            <span className="font-medium text-foreground">{college.accreditation.slice(0, 2).join(', ')}</span>
+            {college.accreditation.length > 2 && ` +${college.accreditation.length - 2}`}
+          </span>
         </div>
+
+        {/* Hostel Info */}
+        {college.hostelAvailable && (
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Users className="w-3.5 h-3.5 flex-shrink-0" />
+            <span>Hostel available • ₹{(college.hostelFees || 0) / 1000}K/year</span>
+          </div>
+        )}
 
         {/* Action Buttons */}
-        <div className="flex gap-2 pt-1">
+        <div className="flex gap-2 pt-2">
           <Link href={`/colleges/${college.id}`} className="flex-1">
-            <Button variant="default" className="w-full group/btn transition-all duration-200 hover:shadow-md hover:shadow-primary/20">
+            <Button
+              variant="default"
+              size="sm"
+              className="w-full gap-1.5 group transition-all duration-200 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5"
+            >
               <span>View Details</span>
-              <svg className="w-4 h-4 ml-1 transition-transform duration-200 group-hover/btn:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Button>
           </Link>
           <Button
             variant={isComparing ? 'destructive' : 'outline'}
+            size="sm"
             onClick={() => onCompare(college)}
-            className={`flex-shrink-0 transition-all duration-200 ${isComparing ? 'animate-scale-in' : 'hover:border-primary hover:text-primary'}`}
+            className={`transition-all duration-200 ${
+              isComparing ? 'animate-scale-in' : 'hover:border-primary hover:text-primary hover:bg-primary/5'
+            }`}
+            title={isComparing ? 'Remove from comparison' : 'Add to comparison'}
           >
             {isComparing ? (
               <span className="flex items-center gap-1">
-                <X className="w-4 h-4" />
-                <span className="hidden sm:inline">Remove</span>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </span>
             ) : (
               <span className="flex items-center gap-1">
-                <Scale className="w-4 h-4" />
-                <span className="hidden sm:inline">Compare</span>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                </svg>
               </span>
             )}
           </Button>

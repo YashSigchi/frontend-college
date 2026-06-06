@@ -60,26 +60,6 @@ export function FilterSidebar({ filters, onFiltersChange, onReset }: FilterSideb
 
   const FilterContent = () => (
     <div className="space-y-6 scrollbar-thin">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center">
-            <Filter className="w-4 h-4 text-primary" />
-          </div>
-          <h3 className="font-semibold text-lg">Filters</h3>
-          {activeFiltersCount > 0 && (
-            <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs font-medium animate-scale-in">
-              {activeFiltersCount}
-            </span>
-          )}
-        </div>
-        {activeFiltersCount > 0 && (
-          <Button variant="ghost" size="sm" onClick={onReset} className="text-sm text-muted-foreground hover:text-destructive transition-colors duration-200">
-            <RotateCcw className="w-3 h-3 mr-1" />
-            Reset
-          </Button>
-        )}
-      </div>
-
       {/* Location Filter */}
       <div className="space-y-3">
         <Label className="text-sm font-medium">Location</Label>
@@ -179,17 +159,24 @@ export function FilterSidebar({ filters, onFiltersChange, onReset }: FilterSideb
       <div className="hidden lg:block">
         <Card className="sticky top-20 border-0 shadow-sm hover:shadow-md transition-shadow duration-300">
           <CardHeader className="pb-4">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center">
-                <Filter className="w-4 h-4 text-primary" />
-              </div>
-              Filters
+            <div className="flex items-center gap-2 justify-between">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center">
+                  <Filter className="w-4 h-4 text-primary" />
+                </div>
+                Filters
+                {activeFiltersCount > 0 && (
+                  <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs font-medium animate-scale-in">
+                    {activeFiltersCount}
+                  </span>
+                )}
+              </CardTitle>
               {activeFiltersCount > 0 && (
-                <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs font-medium animate-scale-in">
-                  {activeFiltersCount}
-                </span>
+                <Button variant="destructive" size="sm" onClick={onReset}>
+                  Reset
+                </Button>
               )}
-            </CardTitle>
+            </div>
           </CardHeader>
           <CardContent>
             <FilterContent />
@@ -213,13 +200,22 @@ export function FilterSidebar({ filters, onFiltersChange, onReset }: FilterSideb
           </SheetTrigger>
           <SheetContent side="left" className="overflow-y-auto w-80">
             <SheetHeader>
-              <SheetTitle className="flex items-center gap-2">
-                <Filter className="w-5 h-5 text-primary" />
-                Filter Colleges
-              </SheetTitle>
-              <SheetDescription>
-                Refine your search to find the perfect college
-              </SheetDescription>
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <SheetTitle className="flex items-center gap-2">
+                    <Filter className="w-5 h-5 text-primary" />
+                    Filter Colleges
+                  </SheetTitle>
+                  <SheetDescription>
+                    Refine your search to find the perfect college
+                  </SheetDescription>
+                </div>
+                {activeFiltersCount > 0 && (
+                  <Button variant="destructive" size="sm" onClick={() => { onReset(); setIsOpen(false); }}>
+                    Reset
+                  </Button>
+                )}
+              </div>
             </SheetHeader>
             <div className="mt-6">
               <FilterContent />

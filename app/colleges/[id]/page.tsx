@@ -18,6 +18,7 @@ import {
   ReviewsSection,
   FacilitiesSection,
   AdmissionSection,
+  QADiscussion,
 } from '@/components/college';
 import { CollegeDetailSkeleton, RatingBadge } from '@/components/shared';
 import { colleges } from '@/data/colleges';
@@ -194,7 +195,7 @@ export default function CollegeDetailPage() {
         {/* Main Content */}
         <div className="container mx-auto px-4 py-8">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 md:grid-cols-7 mb-8 h-auto p-1 bg-muted/50">
+            <TabsList className="grid w-full grid-cols-4 md:grid-cols-8 mb-8 h-auto p-1 bg-muted/50">
               {[
                 { value: 'overview', label: 'Overview' },
                 { value: 'courses', label: 'Courses' },
@@ -203,12 +204,13 @@ export default function CollegeDetailPage() {
                 { value: 'facilities', label: 'Facilities' },
                 { value: 'admission', label: 'Admission' },
                 { value: 'reviews', label: 'Reviews' },
+                { value: 'qa', label: 'Q&A' },
               ].map((tab) => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
                   className={`transition-all duration-200 data-[state=active]:shadow-sm ${
-                    tab.value === 'facilities' || tab.value === 'admission'
+                    (tab.value === 'facilities' || tab.value === 'admission' || tab.value === 'qa')
                       ? 'hidden md:flex'
                       : ''
                   }`}
@@ -247,6 +249,10 @@ export default function CollegeDetailPage() {
 
             <TabsContent value="reviews" className="mt-0 animate-fade-in">
               <ReviewsSection reviews={college.reviews} collegeName={college.name} />
+            </TabsContent>
+
+            <TabsContent value="qa" className="mt-0 animate-fade-in">
+              <QADiscussion collegeName={college.name} />
             </TabsContent>
           </Tabs>
         </div>

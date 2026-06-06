@@ -9,14 +9,47 @@ import { Header, Footer } from '@/components/layout';
 import { CompareTable } from '@/components/compare';
 import { EmptyState } from '@/components/shared';
 import { useCompare } from '@/lib/CompareContext';
+import { colleges } from '@/data/colleges';
+
+const popularComparisons = [
+  {
+    title: 'IIT Delhi vs IIT Bombay',
+    ids: ['1', '2'],
+  },
+  {
+    title: 'NIT Trichy vs NITK Surathkal',
+    ids: ['11', '3'],
+  },
+  {
+    title: 'BITS Pilani vs VIT Vellore',
+    ids: ['4', '6'],
+  },
+];
 
 export default function ComparePage() {
-  const { selectedColleges, removeFromCompare, clearAll } = useCompare();
+  const { selectedColleges, removeFromCompare, clearAll, addToCompare, canAddMore } = useCompare();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleAddComparison = (ids: string[]) => {
+    if (!canAddMore) {
+      window.alert('You can compare up to 3 colleges only. Remove one to add another.');
+      return;
+    }
+
+    ids.forEach((id) => {
+      if (selectedColleges.some((college) => college.id === id)) {
+        return;
+      }
+      const college = colleges.find((college) => college.id === id);
+      if (college) {
+        addToCompare(college);
+      }
+    });
+  };
 
   if (!mounted) {
     return (
@@ -95,10 +128,14 @@ export default function ComparePage() {
                   <h2 className="font-semibold text-lg">Popular Comparisons</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {['IIT Delhi vs IIT Bombay', 'NIT Trichy vs NITK Surathkal', 'BITS Pilani vs VIT Vellore'].map((comparison, idx) => (
-                    <Card key={idx} className="hover:shadow-md transition-all duration-200 cursor-pointer group">
+                  {popularComparisons.map((comparison) => (
+                    <Card
+                      key={comparison.title}
+                      className="hover:shadow-md transition-all duration-200 cursor-pointer group"
+                      onClick={() => handleAddComparison(comparison.ids)}
+                    >
                       <CardContent className="p-4 flex items-center justify-between">
-                        <span className="text-sm font-medium">{comparison}</span>
+                        <span className="text-sm font-medium">{comparison.title}</span>
                         <Plus className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                       </CardContent>
                     </Card>

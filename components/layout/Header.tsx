@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { GraduationCap, Menu, X, Scale, Sun, Moon } from 'lucide-react';
+import { GraduationCap, Menu, X, Scale, Sun, Moon, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCompare } from '@/lib/CompareContext';
@@ -47,6 +47,12 @@ export function Header() {
             <Link href="/">
               <Button variant="ghost" className="text-sm font-medium hover:bg-primary/5 transition-all duration-200">
                 Colleges
+              </Button>
+            </Link>
+            <Link href="/predictor">
+              <Button variant="ghost" className="text-sm font-medium hover:bg-primary/5 transition-all duration-200 gap-2">
+                <Zap className="w-4 h-4" />
+                Predictor
               </Button>
             </Link>
             <Link href="/compare">
@@ -126,7 +132,7 @@ export function Header() {
         {/* Mobile Navigation */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-smooth ${
-            isMenuOpen ? 'max-h-48 opacity-100 pb-4' : 'max-h-0 opacity-0'
+            isMenuOpen ? 'max-h-64 opacity-100 pb-4' : 'max-h-0 opacity-0'
           }`}
         >
           <nav className="flex flex-col gap-1">
@@ -136,6 +142,14 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
             >
               Colleges
+            </Link>
+            <Link
+              href="/predictor"
+              className="text-sm font-medium hover:text-primary transition-colors px-3 py-2 rounded-md hover:bg-primary/5 flex items-center gap-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <Zap className="w-4 h-4" />
+              College Predictor
             </Link>
             <Link
               href="/compare"

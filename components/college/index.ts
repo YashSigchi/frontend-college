@@ -3,5 +3,6 @@ export { FilterSidebar } from './FilterSidebar';
 export { CollegeCard } from './CollegeCard';
 export { SortDropdown } from './SortDropdown';
 export { Pagination } from './Pagination';
+export { QADiscussion } from './QADiscussion';
 
 export * from './sections';

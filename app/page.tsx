@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import { Scale, GraduationCap, Building2, MapPin, ArrowRight, Sparkles } from 'lucide-react';
+import { Scale, GraduationCap, Building2, MapPin, ArrowRight, Sparkles, Zap, Globe, Users, TrendingUp, Search as SearchIcon, Filter as FilterIcon, BarChart3, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Header, Footer } from '@/components/layout';
