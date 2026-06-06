@@ -130,7 +130,7 @@ export function CompareTable({ colleges, onRemove }: CompareTableProps) {
                 icon={MapPin}
                 label="Location"
                 values={colleges.map((c) => (
-                  <span className="font-medium">
+                  <span key={c.id} className="font-medium">
                     {c.location.city}, {c.location.state}
                   </span>
                 ))}
@@ -139,7 +139,7 @@ export function CompareTable({ colleges, onRemove }: CompareTableProps) {
                 icon={Star}
                 label="Rating"
                 values={colleges.map((c) => (
-                  <div className="flex items-center gap-2">
+                  <div key={c.id} className="flex items-center gap-2">
                     <RatingBadge rating={c.rating} reviews={c.totalReviews} size="sm" />
                     {isBestRating(c.rating) && <BestBadge />}
                   </div>
@@ -149,8 +149,14 @@ export function CompareTable({ colleges, onRemove }: CompareTableProps) {
                 icon={IndianRupee}
                 label="Annual Fees"
                 values={colleges.map((c) => (
-                  <div className="flex items-center gap-2">
-                    <span className={isLowestFees(c.fees.min) ? 'font-bold text-emerald-600 dark:text-emerald-400' : 'font-medium'}>
+                  <div key={c.id} className="flex items-center gap-2">
+                    <span
+                      className={
+                        isLowestFees(c.fees.min)
+                          ? 'font-bold text-emerald-600 dark:text-emerald-400'
+                          : 'font-medium'
+                      }
+                    >
                       ₹{(c.fees.min / 100000).toFixed(1)}L - ₹{(c.fees.max / 100000).toFixed(1)}L
                     </span>
                     {isLowestFees(c.fees.min) && <BestBadge />}
@@ -163,8 +169,14 @@ export function CompareTable({ colleges, onRemove }: CompareTableProps) {
                 values={colleges.map((c) => {
                   const pkg = c.placements[0]?.averagePackage || 0;
                   return (
-                    <div className="flex items-center gap-2">
-                      <span className={isBestPlacement(pkg) ? 'font-bold text-emerald-600 dark:text-emerald-400' : 'font-medium'}>
+                    <div key={c.id} className="flex items-center gap-2">
+                      <span
+                        className={
+                          isBestPlacement(pkg)
+                            ? 'font-bold text-emerald-600 dark:text-emerald-400'
+                            : 'font-medium'
+                        }
+                      >
                         ₹{pkg} LPA
                       </span>
                       {isBestPlacement(pkg) && <BestBadge />}
@@ -176,14 +188,14 @@ export function CompareTable({ colleges, onRemove }: CompareTableProps) {
                 icon={Trophy}
                 label="Highest Package"
                 values={colleges.map((c) => (
-                  <span className="font-medium">₹{c.placements[0]?.highestPackage || 'N/A'} LPA</span>
+                  <span key={c.id} className="font-medium">₹{c.placements[0]?.highestPackage || 'N/A'} LPA</span>
                 ))}
               />
               <CompareRow
                 icon={Award}
                 label="Placement Rate"
                 values={colleges.map((c) => (
-                  <div className="flex items-center gap-2">
+                  <div key={c.id} className="flex items-center gap-2">
                     <span className="font-medium">{c.placements[0]?.percentage || 'N/A'}%</span>
                     {c.placements[0]?.percentage && c.placements[0].percentage >= 95 && (
                       <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs">
@@ -197,7 +209,7 @@ export function CompareTable({ colleges, onRemove }: CompareTableProps) {
                 icon={Home}
                 label="Hostel"
                 values={colleges.map((c) => (
-                  <div className="flex items-center gap-2">
+                  <div key={c.id} className="flex items-center gap-2">
                     <Badge variant={c.hostelAvailable ? 'default' : 'secondary'} className={c.hostelAvailable ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : ''}>
                       {c.hostelAvailable ? 'Available' : 'Not Available'}
                     </Badge>
@@ -213,21 +225,21 @@ export function CompareTable({ colleges, onRemove }: CompareTableProps) {
                 icon={Calendar}
                 label="Established"
                 values={colleges.map((c) => (
-                  <span className="font-medium">{c.established}</span>
+                  <span key={c.id} className="font-medium">{c.established}</span>
                 ))}
               />
               <CompareRow
                 icon={Building}
                 label="Campus Size"
                 values={colleges.map((c) => (
-                  <span className="font-medium">{c.campusSize}</span>
+                  <span key={c.id} className="font-medium">{c.campusSize}</span>
                 ))}
               />
               <CompareRow
                 icon={GraduationCap}
                 label="Courses"
                 values={colleges.map((c) => (
-                  <div className="space-y-1.5">
+                  <div key={c.id} className="space-y-1.5">
                     {c.courses.slice(0, 3).map((course) => (
                       <Badge key={course.id} variant="outline" className="mr-1 text-xs font-normal">
                         {course.name.split('(')[0].trim()}
